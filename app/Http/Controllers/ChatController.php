@@ -12,8 +12,25 @@ class ChatController extends Controller
     }
 
     public function chat(Request $request){
-        $chatData = $request->input('message');
-        return view('chat',
-         ['message' => $chatData]);
+        // $chatData = $request->input('message');
+        // return view('chat',
+        //  ['message' => $chatData,
+        //  'length' => strlen($chatData)
+        //  ]);
+
+        $chatData = $request->validate([
+            'message' => 'required|string|max:255|min:5',
+        ],
+        
+         [
+        'message.required' => 'অনুগ্রহ করে একটি মেসেজ লিখুন।',
+        'message.min' => 'মেসেজটি কমপক্ষে ৫ অক্ষরের হতে হবে।',
+        'message.max' => 'মেসেজটি ২৫৫ অক্ষরের বেশি হতে পারবে না।',
+    ]);
+
+        return view('chat', [
+            'foo' => $chatData['message'],
+            'loo' => strlen($chatData['message'])
+        ]);
     }
 }

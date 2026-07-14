@@ -16,11 +16,17 @@
             Send
         </button>
 
-        @if(isset($message))
-            <p><strong>Message:</strong> {{ $message }}</p>
+        @error('message')
+    <p style="color:red">{{ $message }}</p>
+@enderror
+
+        @if(isset($foo) && isset($loo))
+            <p><strong>Message :</strong> {{ $foo }}</p>
+            <p><strong>Length:</strong> {{ $loo }}</p>
         @endif
 
-    </form>
 
+    </form>
+    
 </body>
 </html>
