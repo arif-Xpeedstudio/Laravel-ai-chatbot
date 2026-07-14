@@ -27,6 +27,16 @@
 
 
     </form>
+
+    @foreach($chats as $chat)
+
+<div>
+
+    {{ $chat->message }}
+
+</div>
+
+@endforeach
     
 </body>
 </html>
