@@ -10,7 +10,7 @@
     <form method="POST" action="{{ route('chat.store') }}">
         @csrf
 
-       <textarea name="message"placeholder="Type your message"rows="4"cols="50"></textarea>
+       <textarea name="message"placeholder="Type your message" rows="4" cols="50" >{{ old('message') }}</textarea>
 
         <button>
             Send
