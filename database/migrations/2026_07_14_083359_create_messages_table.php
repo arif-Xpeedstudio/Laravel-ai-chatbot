@@ -13,10 +13,20 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('chat_session_id')->constrained()->onDelete('cascade');
+
+            // Deleting a session deletes its messages with it.
+            $table->foreignId('chat_session_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            // The three roles the OpenAI chat API understands.
+            $table->enum('role', ['system', 'user', 'assistant']);
+
             $table->text('content');
-            $table->string('role');
             $table->timestamps();
+
+            // Every read is "this session's messages, oldest first".
+            $table->index(['chat_session_id', 'id']);
         });
     }
 

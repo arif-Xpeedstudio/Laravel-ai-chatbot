@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('chat_sessions', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+
+            // Nullable: a session is created before we know what it is about.
+            // The title is generated from the first exchange.
+            $table->string('title')->nullable();
+
             $table->timestamps();
+
+            // The sidebar always lists sessions by most recently used.
+            $table->index('updated_at');
         });
     }
 
