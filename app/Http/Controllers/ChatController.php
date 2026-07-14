@@ -16,17 +16,10 @@ class ChatController extends Controller
 
     public function chat(Request $request)
     {
-        // $chatData = $request->input('message');
-        // return view('chat',
-        //  ['message' => $chatData,
-        //  'length' => strlen($chatData)
-        //  ]);
-
         $chatData = $request->validate(
             [
-                'message' => 'required|string|max:255|min:5',
+                'message' => 'required|string|min:5|max:255',
             ],
-
             [
                 'message.required' => 'অনুগ্রহ করে একটি মেসেজ লিখুন।',
                 'message.min' => 'মেসেজটি কমপক্ষে ৫ অক্ষরের হতে হবে।',
@@ -34,14 +27,19 @@ class ChatController extends Controller
             ]
         );
 
-
+        // Database-এ Save
         Chat::create([
             'message' => $chatData['message'],
         ]);
 
+        // আবার সব Chat আনো
+        $chats = Chat::latest()->get();
+
+        // View-তে Data পাঠাও
         return view('chat', [
-            'foo' => $chatData['message'],
-            'loo' => strlen($chatData['message'])
+            'chats' => $chats,
+            'foo'    => $chatData['message'],
+            'loo'    => strlen($chatData['message']),
         ]);
     }
 }
